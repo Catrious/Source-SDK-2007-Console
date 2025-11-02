@@ -1,14 +1,7 @@
-# Source-SDK-2007-Console
-Unofficial tool to make Xbox360/PS3 Orange Box maps <br>
+# Source-SDK-2007-Xbox360
+Unofficial tool to make Xbox360 Orange Box maps <br>
 This project is not affiliated with or endorsed by Valve Corporation. <br>
-Usage: <Br>
-[tool] -[console] [map].vmf <br>
-Replace [tool] with VBSP, VVIS or VRAD <br>
-Replace [console] with xbox360 or ps3 <br>
-Replace [map] with your map name <br>
-Example: <br>
-vbsp -xbox360 mymap.vmf <br>
 Requirements: <br>
-A softmodded/hardmodded Xbox 360 or PlayStation 3 console <br>
+A softmodded/hardmodded Xbox 360 console <br>
 A legal copy of The Orange Box for console <br>
 A computer with Windows 7 or newer <br>

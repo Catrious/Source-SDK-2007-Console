@@ -31,6 +31,8 @@ typedef enum {
 
 extern Platform_t g_Platform;
 
+bool ParsePlatformFlag(int argc, char **argv);
+
 class CUtlBuffer;
 
 #define	MAX_BRUSH_SIDES	128
@@ -581,5 +583,6 @@ void RemoveAreaPortalBrushes_R( node_t *node );
 dtexdata_t *GetTexData( int index );
 
 #endif
+
 
 

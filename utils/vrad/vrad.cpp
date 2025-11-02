@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright Â© 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,6 +19,12 @@
 #include "tools_minidump.h"
 #include "loadcmdline.h"
 #include "byteswap.h"
+
+#define BIG_ENDIAN_TARGET
+header.version = 20;
+#ifdef BIG_ENDIAN_TARGET
+SwapDHeader(&header);
+#endif
 
 #define ALLOWDEBUGOPTIONS (0 || _DEBUG)
 
@@ -43,6 +49,44 @@ CUtlVector<bumplights_t>	addlight;
 int num_sky_cameras;
 sky_camera_t sky_cameras[MAX_MAP_AREAS];
 int area_sky_cameras[MAX_MAP_AREAS];
+
+// --- Put big-endian swap here ---
+#ifdef BIG_ENDIAN_TARGET
+// Swap emitlight vectors
+for (int i = 0; i < emitlight.Count(); i++)
+{
+    SWAP_FLOAT_INPLACE(&emitlight[i].x);
+    SWAP_FLOAT_INPLACE(&emitlight[i].y);
+    SWAP_FLOAT_INPLACE(&emitlight[i].z);
+}
+
+// Swap addlight floats
+for (int i = 0; i < addlight.Count(); i++)
+{
+    SWAP_FLOAT_INPLACE(&addlight[i].r);
+    SWAP_FLOAT_INPLACE(&addlight[i].g);
+    SWAP_FLOAT_INPLACE(&addlight[i].b);
+}
+
+// Swap integer indices
+for (int i = 0; i < g_FacePatches.Count(); i++)
+    g_FacePatches[i] = SWAP32(g_FacePatches[i]);
+for (int i = 0; i < faceParents.Count(); i++)
+    faceParents[i] = SWAP32(faceParents[i]);
+for (int i = 0; i < clusterChildren.Count(); i++)
+    clusterChildren[i] = SWAP32(clusterChildren[i]);
+
+// Swap CPatch floats
+for (int i = 0; i < g_Patches.Count(); i++)
+{
+    for (int j = 0; j < 9; j++)
+    {
+        SWAP_FLOAT_INPLACE(&g_Patches[i].ctrl[j].x);
+        SWAP_FLOAT_INPLACE(&g_Patches[i].ctrl[j].y);
+        SWAP_FLOAT_INPLACE(&g_Patches[i].ctrl[j].z);
+    }
+}
+#endif
 
 entity_t	*face_entity[MAX_MAP_FACES];
 Vector		face_offset[MAX_MAP_FACES];		// for rotating bmodels
@@ -2929,6 +2973,7 @@ int VRAD_Main(int argc, char **argv)
 	
 	return RunVRAD( argc, argv );
 }
+
 
 
 
